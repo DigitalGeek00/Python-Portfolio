@@ -1,73 +1,60 @@
-# =========================
-# 1. CAPACIDAD DE AHORRO
-# =========================
-def capacidad_ahorro():
+def savings_capacity(income, expenses):
 
-    input('Bienvenid@, pulse ENTER para comenzar...')
+        total_savings_capacity = income - expenses
 
-    ingresos = float(input('Introduzca sus ingresos netos: '))
+        return total_savings_capacity
 
-    while ingresos <= 0:
-        print('Por favor, introduzca un valor superior a 0')
-        ingresos = float(input('Nuevo valor: '))
-    
-    print('Perfecto, continuemos...')
-    input('Pulse ENTER para continuar...')
+def savings_rate(total_savings_capacity, income):
 
-    gastos = float(input('Introduzca sus gastos mensuales: '))
+    total_savings_rate = (total_savings_capacity / income)*100
 
-    while ingresos <= gastos or gastos <= 0:
-        print('Los ingresos deben ser superiores a los gastos')
-        gastos = float(input('Nuevo valor: '))
-    
-    print('Perfecto')
+    return total_savings_rate
 
-    cap_ahorro = ingresos - gastos
+def non_invested_savings(total_savings_capacity, contributions):
 
-    return ingresos, cap_ahorro
+    total_non_invested_savings = total_savings_capacity - contributions
 
-ingresos, cap_ahorro = capacidad_ahorro()
+    return total_non_invested_savings
 
-print(f'Su capacidad de ahorro es {cap_ahorro}')
+input('Welcome, press ENTER to start: ')
 
-# =========================
-# 2. TASA DE AHORRO
-# =========================
+income = float(input('Enter net income: '))
 
-def tasa_ahorro(cap_ahorro, ingresos):
+while income <= 0:
+    print('Please, enter a higher value than 0.')
+    income = float(input('New value: '))
+        
+print('Perfect')
+input('Press ENTER to continue')
 
-    print('A continuación, calcularemos su tasa de ahorro en base a los datos ofrecidos:')
-    input('Pulse ENTER para continuar...')
+expenses = float(input('Enter monthly expenses: '))
 
-    tasa_ahorro = (cap_ahorro/ingresos)*100
+while income <= expenses or expenses <= 0:
+    print('Income must be higher than expenses')
+    expenses = float(input('New value: '))
+        
+print('Perfect')
 
-    return tasa_ahorro
+total_savings_capacity = (savings_capacity(income, expenses))
 
-result_tasa = tasa_ahorro(cap_ahorro, ingresos)
-print(f'Su tasa de ahorro mensual es {result_tasa}')
+print(f'Your savings capacity is {total_savings_capacity} €')
 
-# =========================
-# 3. AHORRO NO INVERTIDO
-# =========================
+input('Press ENTER to calculate savings rate depending on data offered')
 
-def ahorro_no_invertido(cap_ahorro):
+total_savings_rate = savings_rate(total_savings_capacity, income)
+print(f'Your savings rate is {total_savings_rate:.1f} %')
 
-    print('Ahora calculemos su ahorro no invertido, para ello primero necesitamos definir sus aportaciones mensuales a inversión:')
-    input('Pulse ENTER para continuar...')
+input('Press ENTER to calculate non-invested savings. First declare montlhly contributions:')
 
-    aportacion = float(input('Introduzca su aportación mensual: '))
+contributions = float(input('Enter monthly contributions: '))
 
-    while aportacion <= 0 or aportacion > cap_ahorro:
-        print('Por favor, introduzca un valor superior a 0')
-        aportacion = float(input('Nuevo valor: '))
-    
-    print('Perfecto, vamos a calcular su ahorro no invertido...')
-    input('Pulse ENTER para continuar...')
+while contributions <= 0 or contributions > total_savings_capacity:
+        print('Please, enter a higher value than 0')
+        contributions = float(input('New value: '))
+        
+print(f'Perfect, your monthly contributions are: {contributions} €')
+input('Press ENTER to continue')
 
-    ahorro_no_invertido = cap_ahorro - aportacion
+total_non_invested_savings = non_invested_savings(total_savings_capacity, contributions)
 
-    return ahorro_no_invertido
-
-result_ahorro_no = ahorro_no_invertido(cap_ahorro)
-
-print(f'Su ahorro no invertido es {result_ahorro_no}')
+print(f'Your non-invested savings are {total_non_invested_savings} €')
