@@ -1,128 +1,126 @@
-# =========================
-# 1. DATOS BASE:
-# =========================
+def financial_data():
 
-def datos_financieros():
+    initial_capital = float(input('Enter initial capital, without using dots: (E.g. 10000, 20000, etc): '))
+    while initial_capital < 0:
+        print('Please, enter a value equal to or higher than 0.')
+        initial_capital = float(input('New value: '))
+    print('Perfect, continue.')
+    input('Press ENTER to continue')
 
-    capital = float(input('Indique el capital inicial, sin puntos (P.ej. 10000, 20000, etc): '))
-    while capital < 0:
-        print('Por favor, introduzca un valor igual o superior a 0.')
-        capital = float(input('Nuevo valor: '))
-    print('Perfecto, continuemos.')
-    input('Pulse ENTER para continuar')
+    time = float(input('Enter years invested, use int or float: (E.g. 2, 4, 5.6, etc): '))
+    while time < 1:
+        print('Please, enter a value equal to or higher than 1.')
+        time = float(input('New value: '))
+    print('Perfect, continue.')
+    input('Press ENTER to continue')
 
-    tiempo = float(input('Indique los años invertido, en número entero o decimal (P.ej. 2, 4, 5.6, etc): '))
-    while tiempo < 1:
-        print('Por favor, introduzca un valor igual o superior a 1.')
-        tiempo = float(input('Nuevo valor: '))
-    print('Perfecto, continuemos.')
-    input('Pulse ENTER para continuar')
+    annual_rate = float(input('Enter annual rate, use int or float: (E.g. 2, 4, 2.3, etc): ')) / 100
+    while annual_rate <= 0:
+        print('Please, enter a value higher than 0.')
+        annual_rate = float(input('New value: '))
+    print('Perfect, continue.')
+    input('Press ENTER to end calculation.')
 
-    tasa_anual = float(input('Indique la tasa de interés anual, con número entero o decimal (P. ej. 2, 4, 2.3, etc): ')) / 100
-    while tasa_anual <= 0:
-        print('Por favor, introduzca un valor superior a 0.')
-        tasa_anual = float(input('Nuevo valor: '))
-    print('Perfecto, continuemos.')
-    input('Pulse ENTER para finalizar el cálculo.')
+    return initial_capital, time, annual_rate
 
-    return capital, tiempo, tasa_anual
+def simple_interest(initial_capital, time, annual_rate):
 
-# =========================
-# 2. INTERÉS SIMPLE Y COMPUESTO:
-# ¿CUÁNTO TENDRÉ EN X AÑOS, CON X APORTACIÓN, Y X TIPO DE INTERÉS? 
-# =========================
+    simple_interests = initial_capital * time * annual_rate
 
-def interes_simple(capital, tiempo, tasa_anual):
+    simple_final_capital = initial_capital + simple_interests
 
-    intereses_s = capital * tiempo * tasa_anual
+    return simple_interests, simple_final_capital
 
-    capital_final_s = capital + intereses_s
-
-    return intereses_s, capital_final_s
-
-def interes_compuesto(capital, tiempo, tasa_anual):
+def compound_interest(initial_capital, time, annual_rate):
    
-    capital_final_c = capital * (1 + tasa_anual) ** tiempo
+    compound_final_capital = initial_capital * (1 + annual_rate) ** time
    
-    intereses_c = capital_final_c - capital
+    compound_interests = compound_final_capital - initial_capital
 
-    return intereses_c, capital_final_c
+    return compound_interests, compound_final_capital
 
-# =========================
-# 3. APORTACIONES PERIODICAS:
-# ¿CUÁNTO TENDRÉ EN X AÑOS, CON X APORTACIÓN, Y X TIPO DE INTERÉS, SI ADEMÁS VOY APORTANDO MENSUALMENTE?
-# =========================
+def calculate_dca(initial_capital, monthly_contribution, time, annual_rate):
 
-def calculo_aportaciones(capital, aportacion, tiempo, tasa_anual):
+    time_months = time * 12
 
-    tiempo_meses = tiempo * 12
+    monthly_rate = annual_rate / 12
 
-    tasa_mensual = tasa_anual / 12
+    total_contribution = initial_capital + (monthly_contribution * time_months)
 
-    capital_aportaciones = aportacion * (
-        ((1 + tasa_mensual) ** tiempo_meses - 1)
-        / tasa_mensual
+    initial_capital_growth = (
+        initial_capital * (1 + monthly_rate) ** time_months
+    ) - initial_capital
+
+    contribution_growth = monthly_contribution * (
+        ((1 + monthly_rate) ** time_months - 1)
+        / monthly_rate
+    ) - (monthly_contribution * time_months)
+
+    final_capital = (
+        initial_capital
+        + initial_capital_growth
+        + (monthly_contribution * time_months)
+        + contribution_growth
+)
+    investment_return = final_capital - total_contribution
+
+    return (
+        total_contribution, 
+        initial_capital_growth, 
+        contribution_growth, 
+        final_capital, 
+        investment_return
     )
-
-    capital_total_aportado = capital + (aportacion * tiempo_meses)
-
-    capital_inicial_final = capital * (1 + tasa_mensual) ** tiempo_meses
-
-    capital_final = capital_aportaciones + capital_inicial_final
-
-    diferencia_rendimiento = capital_final - capital_total_aportado
-
-    return capital_total_aportado, capital_final, diferencia_rendimiento
 
 while True:
     print('==============================')
-    print('     CALCULADORA FINANCIERA')
+    print('WELCOME TO FINANCE CALCULATOR TOOL: ')
     print('==============================')
-    print('1. Interés simple')
-    print('2. Interés compuesto')
-    print('3. Aportaciones periódicas')
-    print('4. Salir')
+    print('1. Simple interest')
+    print('2. Compound interest')
+    print('3. DCA Strategy')
+    print('4. Exit')
 
-    opcion = input('Seleccione una opción: ')
+    option = input('Select an option: ')
 
-    if opcion == '1':
-        print('Has elegido interés simple')
-        capital, tiempo, tasa_anual = datos_financieros()
+    if option == '1':
+        print('User selected simple interest')
+        initial_capital, time, annual_rate = financial_data()
 
-        intereses_s, capital_final_s = interes_simple(capital, tiempo, tasa_anual)
+        simple_interests, simple_final_capital = simple_interest(initial_capital, time, annual_rate)
 
-        print(f'Estos son los intereses de la inversión a {tiempo} años: {intereses_s:.2f} €')
-        input('Pulse ENTER para ver el capital final:')
-        print(f'Este es el capital final resultante: {capital_final_s:.2f} €')
-        input('Pulse ENTER para volver al menú.')
+        print(f'Simple interests generated over {time} years are: {simple_interests:.2f} €')
+        input('Press ENTER to know your final capital:')
+        print(f'This result shows the final capital you have: {simple_final_capital:.2f} €')
+        input('Press ENTER to return to menu.')
 
-    elif opcion == '2':
-        print('Has elegido interés compuesto')
-        capital, tiempo, tasa_anual = datos_financieros()
-        intereses_c, capital_final_c = interes_compuesto(capital, tiempo, tasa_anual)
-        print(f'Estos son los intereses de la inversión a {tiempo} años: {intereses_c:.2f} €')
-        input('Pulse ENTER para ver el capital final:')
-        print(f'Este es el capital final: {capital_final_c:.2f} €')
-        input('Pulse ENTER para volver al menú.')
+    elif option == '2':
+        print('User selected compound interest')
+        initial_capital, time, annual_rate = financial_data()
+        compound_interests, compound_final_capital = compound_interest(initial_capital, time, annual_rate)
+        print(f'Compound interests generated over {time} years are: {compound_interests:.2f} €')
+        input('Press ENTER to see final capital:')
+        print(f'This result shows the final capital you have: {compound_final_capital:.2f} €')
+        input('Press ENTER to return to menu.')
 
-    elif opcion == '3':
-        print('Has elegido aportaciones periódicas')
-        capital, tiempo, tasa_anual = datos_financieros()
-        aportacion = float(input('Indique su aportación mensual, sin puntos (P.ej. 100, 200, etc): '))
-        while aportacion <= 0:
-            print('Por favor, introduzca un valor superior a 0.')
-            aportacion = float(input('Nuevo valor: '))
-        capital_total_aportado, capital_final, diferencia_rendimiento = calculo_aportaciones(capital, aportacion, tiempo, tasa_anual)
-        print(f'Este es el capital total aportado: {capital_total_aportado:.1f} €')
-        input('Pulse ENTER para continuar.')
-        print(f'Este es el capital final de la inversión: {capital_final:.1f} €')
-        input('Pulse ENTER para continuar.')
-        print(f'Esta es el rendimiento bruto sobre el dinero invertido: {diferencia_rendimiento:.1f} €')
-        input('Pulse ENTER para continuar.')
+    elif option == '3':
+        print('User selected DCA Strategy')
+        initial_capital, time, annual_rate = financial_data()
+        monthly_contribution = float(input('Enter monthly contributions without using dots (E.g. 100, 200,...): '))
+        while monthly_contribution <= 0:
+            print('Please, enter a higher value than 0.')
+            monthly_contribution = float(input('New value: '))
+        total_contribution, initial_capital_growth, contribution_growth, final_capital, investment_return = calculate_dca(initial_capital, monthly_contribution, time, annual_rate)
+        print(f'This is the total capital aported: {total_contribution:.1f} €')
+        input('Press ENTER to continue.')
+        print(f'This is the investment final capital: {final_capital:.1f} €')
+        input('Press ENTER to continue.')
+        print(f'This is your investment return: {investment_return:.1f} €')
+        input('Press ENTER to continue.')
 
-    elif opcion == '4':
-        print('Hasta pronto')
+    elif option == '4':
+        print('See you soon!')
         break
 
     else:
-        print('Opción no válida')
+        print('Option not available now.')
