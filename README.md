@@ -10,13 +10,27 @@ The first project in this repository is a **Personal Finance Decision Tool**.
 
 The long-term goal is to develop it into a practical tool for personal finance management and financial decision-making.
 
+### Version 1
+
 The first version focuses on basic financial concepts such as:
 
 * Saving capacity
 * Saving rate
 * Uninvested savings
 
-As I learn new Python concepts and programming techniques, the project will progressively become more sophisticated.
+### Version 2
+
+The second version expands the project into an interactive financial calculator.
+
+It currently allows the user to calculate:
+
+* Simple interest
+* Compound interest
+* Future value with periodic monthly contributions
+* Total capital contributed
+* Investment returns
+
+As I continue learning Python, future versions will progressively improve the project's functionality, structure, and complexity.
 
 ## 📚 Learning Approach
 
