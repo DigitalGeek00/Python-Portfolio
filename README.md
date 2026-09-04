@@ -2,11 +2,11 @@
 
 This repository documents my journey learning Python from the ground up.
 
-I use it to track my progress, practice programming concepts, experiment with ideas, and progressively build my own projects.
+I use it to track and show my progress while progressively building my own projects.
 
-## 💰 Personal Finance Decision Tool
+## 1st Project: Personal Finance Decision Tool
 
-One of the main projects in this repository is a **Personal Finance Decision Tool**.
+The first project in this repository is a **Personal Finance Decision Tool**.
 
 The long-term goal is to develop it into a practical tool for personal finance management and financial decision-making.
 
